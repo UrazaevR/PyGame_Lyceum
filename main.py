@@ -57,6 +57,21 @@ class Game:
         self.btn_author = GameButton(self.win, (300, 60), ((self.width - 300) // 2, 260),
                                      'Author', 5, 'yellow', 'yellow',
                                      text_color='Red')
+        self.btn_author.connect(self.author)
+        author_label1 = GameLabel(self.win, (700, 133), ((self.width - 700) // 2, 100),
+                                  text='The game was written by Ruslan Urazaev,',
+                                  color='yellow')
+        author_label2 = GameLabel(self.win, (700, 133), ((self.width - 700) // 2, 234),
+                                  text='a teacher at the Lyceum of the Yandex Academy from school 1501',
+                                  color='yellow')
+        author_label3 = GameLabel(self.win, (700, 133), ((self.width - 700) // 2, 400),
+                                  text='Good luck have fun!!!',
+                                  color='yellow')
+
+        self.btn_back_author = GameButton(self.win, (300, 60), ((self.width - 300) // 2, 540),
+                                          'Back', 5, 'yellow', 'yellow',
+                                          text_color='Red')
+        self.btn_back_author.connect(self.back)
         self.btn_exit = GameButton(self.win, (300, 60), ((self.width - 300) // 2, 340),
                                    'Exit', 5, 'yellow', 'yellow', text_color='Red')
         self.btn_back = GameButton(self.win, (300, 60), ((self.width - 300) // 2, 440),
@@ -92,6 +107,11 @@ class Game:
         self.screens['settings'].append(self.music_volume)
         self.screens['settings'].append(self.sound_label)
         self.screens['settings'].append(self.sound_volume)
+        self.screens['author'] = []
+        self.screens['author'].append(author_label1)
+        self.screens['author'].append(author_label2)
+        self.screens['author'].append(author_label3)
+        self.screens['author'].append(self.btn_back_author)
         self.score = 0
 
     def play(self) -> None:
@@ -108,12 +128,16 @@ class Game:
         self.player_and_enemy_group.add(self.player)
         self.playing = True
 
+    def author(self) -> None:
+        """Функция переключения на экран авторства"""
+        self.current_screen = 'author'
+
     def settings(self) -> None:
-        """Кнопка переключения на экран настроек"""
+        """Функция переключения на экран настроек"""
         self.current_screen = 'settings'
 
     def back(self) -> None:
-        """Кнопка возврата в главное меню"""
+        """Функция возврата в главное меню"""
         self.current_screen = 'main'
 
     def game_continue(self) -> None:
