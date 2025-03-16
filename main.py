@@ -1,5 +1,3 @@
-import pygame
-
 from config_manager import *
 from PyGameWidgets import *
 from Sprites import *
@@ -22,7 +20,7 @@ class Game:
         self.horizontal_borders = pygame.sprite.Group()
         self.player_and_enemy_group = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
-        self.atack_group = pygame.sprite.Group()
+        self.attack_group = pygame.sprite.Group()
         self.stars = pygame.sprite.Group()
         pygame.display.set_caption('Galaxy Game')
         self.font = pygame.font.SysFont("Roboto Condensed", 50)
@@ -103,7 +101,7 @@ class Game:
         self.score = 0
         self.player_and_enemy_group.empty()
         self.enemies.empty()
-        self.atack_group.empty()
+        self.attack_group.empty()
         self.player = Player(self, load_image('img/Player.png', -1, 2),
                              3, 1, (self.width - 128) // 2,
                              self.height - 140)
@@ -200,7 +198,7 @@ class Game:
                         if event.key == pygame.K_ESCAPE:
                             self.pause()
                         if event.key == pygame.K_SPACE:
-                            self.player.atack()
+                            self.player.attack()
                     elif event.type == METEOR_SPAWN_EVENT:
                         self.meteor_spawn()
                     elif event.type == ENEMY_SPAWN_EVENT:
@@ -214,8 +212,8 @@ class Game:
                     if self.player.rect.x < self.width - self.player.rect.width:
                         self.player.update(7, 0)
                 self.player_and_enemy_group.update()
-                self.atack_group.update()
-                self.atack_group.draw(self.win)
+                self.attack_group.update()
+                self.attack_group.draw(self.win)
                 self.player_and_enemy_group.draw(self.win)
                 self.win.blit(self.font.render('Best Score', True, 'yellow'),
                               (self.width - 185, 5))

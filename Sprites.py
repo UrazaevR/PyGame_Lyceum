@@ -45,7 +45,7 @@ class Star(pygame.sprite.Sprite):
         self.rect = self.rect.move(x, y)
         self.update()
 
-    def cut_sheet(self, sheet, columns, rows):
+    def cut_sheet(self, sheet: pygame.Surface | pygame.SurfaceType, columns: int, rows: int) -> None:
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
                                 sheet.get_height() // rows)
         for j in range(rows):
@@ -53,7 +53,7 @@ class Star(pygame.sprite.Sprite):
                 frame_location = (self.rect.w * i, self.rect.h * j)
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
 
-    def update(self):
+    def update(self) -> None:
         self.image = self.frames[self.cur_frame]
         self.mask = pygame.mask.from_surface(self.image)
         if self.cur_frame != len(self.frames) - 1:
@@ -74,10 +74,10 @@ class Lazer(pygame.sprite.Sprite):
         self.cur_frame = 0
         self.vec = vec
         self.rect = self.rect.move(x, y)
-        self.game.atack_group.add(self)
+        self.game.attack_group.add(self)
         self.update()
 
-    def cut_sheet(self, sheet, columns, rows):
+    def cut_sheet(self, sheet: pygame.Surface | pygame.SurfaceType, columns: int, rows: int) -> None:
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
                                 sheet.get_height() // rows)
         for j in range(rows):
@@ -85,7 +85,7 @@ class Lazer(pygame.sprite.Sprite):
                 frame_location = (self.rect.w * i, self.rect.h * j)
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
 
-    def update(self):
+    def update(self) -> None:
         self.image = self.frames[self.cur_frame]
         self.mask = pygame.mask.from_surface(self.image)
         if self.rect.y < 0:
@@ -126,7 +126,7 @@ class Flame(pygame.sprite.Sprite):
         self.rect = self.rect.move(x, y)
         self.update()
 
-    def cut_sheet(self, sheet, columns, rows):
+    def cut_sheet(self, sheet: pygame.Surface | pygame.SurfaceType, columns: int, rows: int) -> None:
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
                                 sheet.get_height() // rows)
         for j in range(rows):
@@ -134,7 +134,7 @@ class Flame(pygame.sprite.Sprite):
                 frame_location = (self.rect.w * i, self.rect.h * j)
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
 
-    def update(self, x=None, y=None):
+    def update(self, x=None, y=None) -> None:
         self.image = self.frames[self.cur_frame]
         self.mask = pygame.mask.from_surface(self.image)
         if self.cur_frame != len(self.frames) - 1:
@@ -162,7 +162,7 @@ class Player(pygame.sprite.Sprite):
         self.game.player_and_enemy_group.add(self.flame)
         self.update()
 
-    def cut_sheet(self, sheet, columns, rows):
+    def cut_sheet(self, sheet: pygame.Surface | pygame.SurfaceType, columns: int, rows: int) -> None:
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
                                 sheet.get_height() // rows)
         for j in range(rows):
@@ -170,7 +170,7 @@ class Player(pygame.sprite.Sprite):
                 frame_location = (self.rect.w * i, self.rect.h * j)
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
 
-    def atack(self):
+    def attack(self) -> None:
         """Функция отвечающая за атаку:
         Она создает объекты класса Lazer в количестве и положении зависящих от уровня звездолета"""
         lvl = self.game.score // 1000
@@ -196,7 +196,7 @@ class Player(pygame.sprite.Sprite):
         self.lazer_sound.set_volume(self.game.get_sound_volume() / 100)
         self.lazer_sound.play()
 
-    def update(self, x=None, y=None):
+    def update(self, x=None, y=None) -> None:
         self.image = self.frames[self.cur_frame]
         self.mask = pygame.mask.from_surface(self.image)
         if self.hp == 3:
@@ -231,7 +231,7 @@ class Enemy(pygame.sprite.Sprite):
         self.game.player_and_enemy_group.add(self.flame)
         self.update()
 
-    def cut_sheet(self, sheet, columns, rows):
+    def cut_sheet(self, sheet: pygame.Surface | pygame.SurfaceType, columns: int, rows: int) -> None:
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
                                 sheet.get_height() // rows)
         for j in range(rows):
@@ -239,7 +239,7 @@ class Enemy(pygame.sprite.Sprite):
                 frame_location = (self.rect.w * i, self.rect.h * j)
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
 
-    def atack(self):
+    def atack(self) -> None:
         """Функция отвечающая за атаку:
         Она создает объекты класса Lazer в количестве и положении зависящих от уровня звездолета"""
         if self.lvl > 3:
@@ -253,7 +253,7 @@ class Enemy(pygame.sprite.Sprite):
         self.lazer_sound.set_volume(self.game.get_sound_volume() / 100)
         self.lazer_sound.play()
 
-    def update(self, x=None):
+    def update(self, x=None) -> None:
         self.image = self.frames[self.cur_frame]
         self.mask = pygame.mask.from_surface(self.image)
         if self.hp == 3:
@@ -294,7 +294,7 @@ class Meteor(pygame.sprite.Sprite):
         self.rect = self.rect.move(x, 5)
         self.update()
 
-    def cut_sheet(self, sheet, columns, rows):
+    def cut_sheet(self, sheet: pygame.Surface | pygame.SurfaceType, columns: int, rows: int) -> None:
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
                                 sheet.get_height() // rows)
         for j in range(rows):
@@ -302,7 +302,7 @@ class Meteor(pygame.sprite.Sprite):
                 frame_location = (self.rect.w * i, self.rect.h * j)
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
 
-    def update(self):
+    def update(self) -> None:
         self.image = self.frames[self.cur_frame]
         self.mask = pygame.mask.from_surface(self.image)
         for border in self.game.horizontal_borders:
