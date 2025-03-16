@@ -157,7 +157,8 @@ class Player(pygame.sprite.Sprite):
         self.cut_sheet(sheet, columns, rows)
         self.cur_frame = 0
         self.rect = self.rect.move(x, y)
-        self.flame = Flame(self.game, load_image('img/Flames.png', -1, 0.3), 12, 1, self.rect.centerx - 11, self.rect.centery + 48)
+        self.flame = Flame(self.game, load_image('img/Flames.png', -1, 0.3),
+                           12, 1, self.rect.centerx - 11, self.rect.centery + 48)
         self.game.player_and_enemy_group.add(self.flame)
         self.update()
 
@@ -220,12 +221,13 @@ class Enemy(pygame.sprite.Sprite):
         self.lazer_sound = pygame.mixer.Sound('data/sounds/Laser_Shoot.wav')
         self.cut_sheet(sheet, columns, rows)
         self.cur_frame = 0
-        self.d_pos = [-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2,
-                      +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2, +2]
+        self.d_pos = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+                      +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1, +1]
         self.cur_pos = 0
         self.lvl = random.randint(1, 3)
         self.rect = self.rect.move(x, y)
-        self.flame = Flame(self.game, load_image('img/Flames_for_Enemy.png', -1, 0.3), 12, 1, self.rect.centerx - 11, self.rect.centery - 65)
+        self.flame = Flame(self.game, load_image('img/Flames_for_Enemy.png', -1, 0.3),
+                           12, 1, self.rect.centerx - 11, self.rect.centery - 65)
         self.game.player_and_enemy_group.add(self.flame)
         self.update()
 
@@ -244,7 +246,8 @@ class Enemy(pygame.sprite.Sprite):
             self.lvl = 3
         weapon_points = {1: [[self.rect.centerx, self.rect.centery]],
                          2: [[self.rect.centerx - 10, self.rect.centery], [self.rect. centerx + 10, self.rect.centery]],
-                         3: [[self.rect.centerx, self.rect.centery], [self.rect.centerx - 20, self.rect.centery], [self.rect.centerx + 20, self.rect.centery]]}
+                         3: [[self.rect.centerx, self.rect.centery], [self.rect.centerx - 20, self.rect.centery],
+                             [self.rect.centerx + 20, self.rect.centery]]}
         for point in weapon_points[self.lvl]:
             Lazer(self.game, load_image('img/Lazer.png', -1), 1, 1, point[0] - 6, point[-1], 'down', 'enemy')
         self.lazer_sound.set_volume(self.game.get_sound_volume() / 100)
@@ -264,7 +267,7 @@ class Enemy(pygame.sprite.Sprite):
             self.flame.kill()
             self.kill()
         if x is not None:
-            if x - 15 <= self.rect.centerx <= x + 15:
+            if x - 50 <= self.rect.centerx <= x + 50:
                 self.atack()
         self.rect.x += self.d_pos[self.cur_pos]
         self.flame.rect.x += self.d_pos[self.cur_pos]

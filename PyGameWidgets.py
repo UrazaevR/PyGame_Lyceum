@@ -3,10 +3,11 @@ import pygame
 
 class GameButton:
     """Виджет кнопки, написанный для PyGame"""
-    def __init__(self, screen: pygame.Surface, size: tuple[int, int]=(100, 50),
-                 coors: tuple[int, int]=(0, 0), text: str='Button', border_radius: int=0,
-                 color: str='white', bordercolor: str='black',
-                 font: str="Roboto Condensed", font_size: int=50, text_color: str='black'):
+
+    def __init__(self, screen: pygame.Surface, size: tuple[int, int] = (100, 50),
+                 coors: tuple[int, int] = (0, 0), text: str = 'Button', border_radius: int = 0,
+                 color: str = 'white', bordercolor: str = 'black',
+                 font: str = "Roboto Condensed", font_size: int = 50, text_color: str = 'black'):
         self.border_radius = border_radius
         self.screen = screen
         self.font_size = font_size
@@ -69,15 +70,16 @@ class GameButton:
         self.x, self.y = self.coors = [x, y]
         self.update()
 
-    def set_visible(self, flag: bool=True) -> None:
+    def set_visible(self, flag: bool = True) -> None:
         """Функция меняет флаг отвечающий отрисовку на значение аргумента (по-умолчанию True)"""
         self.is_visible = flag
 
 
 class GameSlider:
     """Виджет слайдера, написанный для PyGame"""
-    def __init__(self, screen: pygame.Surface, x: int=0, y: int=0, width: int=100, height: int=4,
-                 value: int=0, max_value: int=100, min_value: int=0,
+
+    def __init__(self, screen: pygame.Surface, x: int = 0, y: int = 0, width: int = 100, height: int = 4,
+                 value: int = 0, max_value: int = 100, min_value: int = 0,
                  cickle_color='blue', color='white', bar_color='white'):
         self.screen = screen
         self.coors = self.x, self.y = x, y
@@ -136,7 +138,7 @@ class GameSlider:
                 if event.type == pygame.MOUSEBUTTONUP:
                     self.drag = False
 
-    def set_visible(self, flag: bool=True) -> None:
+    def set_visible(self, flag: bool = True) -> None:
         """Функция меняет флаг отвечающий отрисовку на значение аргумента (по-умолчанию True)"""
         self.is_visible = flag
 
@@ -146,3 +148,54 @@ class GameSlider:
             self.function = function
         else:
             raise TypeError
+
+
+class GameLabel:
+    """Виджет текстовой метки, написанный для PyGame"""
+
+    def __init__(self, screen: pygame.Surface, size: tuple[int, int] = (100, 50),
+                 coors: tuple[int, int] = (0, 0), text: str = 'Label',
+                 color: str = 'white', font: str = "Roboto Condensed", font_size: int = 50):
+        self.screen = screen
+        self.font_size = font_size
+        self.font = font
+        self.width, self.height = self.size = size
+        self.x, self.y = self.coors = coors
+        self.text = text
+        self.color = pygame.Color(color)
+        self.is_visible = True
+        self.font_set()
+        self.update()
+
+    def set_text(self, text: str) -> None:
+        """Функция для изменения текста виджета"""
+        self.text = text
+        self.font_set()
+
+    def font_set(self) -> None:
+        """Функция делает перерасчет размера шрифта так, чтобы тест полностью влез в виджет"""
+        letter = pygame.font.SysFont(self.font, self.font_size).render(self.text, True, self.color)
+        rect = letter.get_rect()
+        while rect.height >= self.height - 2 or rect.width >= self.width - 2:
+            self.font_size -= 1
+            letter = pygame.font.SysFont(self.font, self.font_size).render(self.text, True, self.color)
+            rect = letter.get_rect()
+
+    def update(self) -> None:
+        if self.is_visible:
+            letter = pygame.font.SysFont(self.font,
+                                         self.font_size).render(self.text, True, self.color)
+            t_x = (self.width - letter.get_width()) // 2 + self.x
+            t_y = (self.height - letter.get_height()) // 2 + self.y
+            self.screen.blit(letter, (t_x, t_y))
+
+    def get_events(self, events: list[pygame.event.Event]) -> None:
+        """Функция заглушка - GameLabel не обрабатывает события"""
+
+    def move(self, x: int, y: int) -> None:
+        self.x, self.y = self.coors = [x, y]
+        self.update()
+
+    def set_visible(self, flag: bool = True) -> None:
+        """Функция меняет флаг отвечающий отрисовку на значение аргумента (по-умолчанию True)"""
+        self.is_visible = flag
