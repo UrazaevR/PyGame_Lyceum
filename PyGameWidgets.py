@@ -146,6 +146,3 @@ class GameSlider:
             self.function = function
         else:
             raise TypeError
-
-
-help(GameSlider)

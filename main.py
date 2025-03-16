@@ -63,6 +63,9 @@ class Game:
                                        value=int(read_set('sound_volume')), color='yellow', cickle_color='red')
         self.music_volume.connect(self.change_music_volume)
         self.sound_volume.connect(self.change_sound_volume)
+        self.music = pygame.mixer.Sound('data/sounds/retro-fon.mp3')
+        self.music.set_volume(self.get_music_volume() / 100)
+        self.music.play(loops=-1)
         self.btn_cont.set_visible(False)
         self.current_screen = 'main'
         self.btn_cont.connect(self.game_continue)
@@ -106,11 +109,12 @@ class Game:
         self.playing = True
 
     def change_music_volume(self, value: float) -> None:
-        """Функция для сохранения значения громкости музыки"""
+        """Функция для изменения значения громкости музыки и сохранения ее нового значения"""
         save_conf('music_volume', str(int(value)))
+        self.music.set_volume(value / 100)
 
     def change_sound_volume(self, value: float) -> None:
-        """Функция для созхранения значения громкости звуков"""
+        """Функция для изменения значения громкости звука и сохранения ее нового значения"""
         save_conf('sound_volume', str(int(value)))
 
     def get_music_volume(self) -> int:
@@ -203,11 +207,12 @@ class Game:
         Останавливает все циклы и выходит из pygame"""
         self.playing = False
         self.running = False
+        self.music.stop()
         pygame.quit()
-        print('Удачного дня!')
 
 
 if __name__ == '__main__':
+    start_config()
     game = Game()
     try:
         game.run()
