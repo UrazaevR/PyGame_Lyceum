@@ -23,7 +23,7 @@ def load_image(name: str, colorkey=None, resize: float=1.0) -> pygame.Surface | 
 
 class Border(pygame.sprite.Sprite):
     """Класс границ, взят из учебника"""
-    def __init__(self, game, x1, y1, x2, y2):
+    def __init__(self, game, x1: int, y1: int, x2: int, y2: int):
         super().__init__()
         if x1 == x2:  # вертикальная стенка
             self.add(game.vertical_borders)
@@ -36,7 +36,8 @@ class Border(pygame.sprite.Sprite):
 
 
 class Star(pygame.sprite.Sprite):
-    def __init__(self, sheet, columns, rows, x, y):
+    """Спрайт звезды для заднего фона игры"""
+    def __init__(self, sheet: pygame.Surface | pygame.SurfaceType, columns: int, rows: int, x: int, y: int):
         super().__init__()
         self.frames = []
         self.cut_sheet(sheet, columns, rows)
@@ -62,7 +63,9 @@ class Star(pygame.sprite.Sprite):
 
 
 class Lazer(pygame.sprite.Sprite):
-    def __init__(self, game, sheet, columns, rows, x, y, vec='up', host='player'):
+    """Класс реализующий выстрелы игроков и врагов"""
+    def __init__(self, game, sheet: pygame.Surface | pygame.SurfaceType, columns: int, rows: int, x: int, y: int,
+                 vec: str='up', host: str='player'):
         super().__init__()
         self.frames = []
         self.host = host
@@ -113,6 +116,7 @@ class Lazer(pygame.sprite.Sprite):
 
 
 class Flame(pygame.sprite.Sprite):
+    """Спрайт пламени позади звездолетов"""
     def __init__(self, game, sheet, columns, rows, x, y):
         super().__init__()
         self.frames = []
@@ -143,7 +147,8 @@ class Flame(pygame.sprite.Sprite):
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, game, sheet, columns, rows, x, y):
+    """Спрайт для отрисовки игрока и генерации лазеров при атаке"""
+    def __init__(self, game, sheet: pygame.Surface | pygame.SurfaceType, columns: int, rows: int, x: int, y: int):
         super().__init__()
         self.frames = []
         self.game = game
@@ -165,6 +170,8 @@ class Player(pygame.sprite.Sprite):
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
 
     def atack(self):
+        """Функция отвечающая за атаку:
+        Она создает объекты класса Lazer в количестве и положении зависящих от уровня звездолета"""
         lvl = self.game.score // 1000
         if lvl == 0:
             lvl = 1
@@ -204,7 +211,8 @@ class Player(pygame.sprite.Sprite):
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, game, sheet, columns, rows, x, y):
+    """Спрайт для отрисовки врага и генерации лазеров при атаке"""
+    def __init__(self, game, sheet: pygame.Surface | pygame.SurfaceType, columns: int, rows: int, x: int, y: int):
         super().__init__()
         self.frames = []
         self.game = game
@@ -230,6 +238,8 @@ class Enemy(pygame.sprite.Sprite):
                 self.frames.append(sheet.subsurface(pygame.Rect(frame_location, self.rect.size)))
 
     def atack(self):
+        """Функция отвечающая за атаку:
+        Она создает объекты класса Lazer в количестве и положении зависящих от уровня звездолета"""
         if self.lvl > 3:
             self.lvl = 3
         weapon_points = {1: [[self.rect.centerx, self.rect.centery]],
@@ -264,7 +274,8 @@ class Enemy(pygame.sprite.Sprite):
 
 
 class Meteor(pygame.sprite.Sprite):
-    def __init__(self, game, sheet, columns, rows, x):
+    """Спрайт метеоритов"""
+    def __init__(self, game, sheet: pygame.Surface | pygame.SurfaceType, columns: int, rows: int, x: int):
         super().__init__()
         self.frames = []
         self.game = game

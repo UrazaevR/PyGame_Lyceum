@@ -81,7 +81,10 @@ class Game:
         self.score = 0
         self.i = 0
 
-    def play(self):
+    def play(self) -> None:
+        """Функция начала новой игры.
+        Она очищает все группы спрайтов, обнуляет счет, спавнит игрока
+        и устанавливает флаг игрового цикла в положение True"""
         self.score = 0
         self.player_and_enemy_group.empty()
         self.enemies.empty()
@@ -90,32 +93,42 @@ class Game:
         self.player_and_enemy_group.add(self.player)
         self.playing = True
 
-    def settings(self):
+    def settings(self) -> None:
+        """Кнопка переключения на экран настроек"""
         self.current_screen = 'settings'
 
-    def back(self):
+    def back(self) -> None:
+        """Кнопка возврата в главное меню"""
         self.current_screen = 'main'
 
-    def game_continue(self):
+    def game_continue(self) -> None:
+        """Функция для продолжения игрового цикла"""
         self.playing = True
 
-    def change_music_volume(self, value):
+    def change_music_volume(self, value: float) -> None:
+        """Функция для сохранения значения громкости музыки"""
         save_conf('music_volume', str(int(value)))
 
-    def change_sound_volume(self, value):
+    def change_sound_volume(self, value: float) -> None:
+        """Функция для созхранения значения громкости звуков"""
         save_conf('sound_volume', str(int(value)))
 
     def get_music_volume(self) -> int:
+        """Функция, которая возвращает текущее значение громкости музыки"""
         return int(read_set('music_volume'))
 
     def get_sound_volume(self) -> int:
+        """Функция, которая возвращает текущее значение громкости звука"""
         return int(read_set('sound_volume'))
 
-    def pause(self):
+    def pause(self) -> None:
+        """Функция, которая ставит игровой цикл на паузу и делает кнопку 'Продолжить игру' видимой"""
         self.playing = False
         self.btn_cont.set_visible()
 
-    def run(self):
+    def run(self) -> None:
+        """Основная функция класса Game
+        Внутри находится основной цикл, в котором рисуется все приложение, а также главный игровой цикл"""
         while self.running:
             self.i += 1
             if self.i == 1001:
@@ -185,7 +198,9 @@ class Game:
                 fps = 60
             clock.tick(int(fps))
 
-    def kill(self):
+    def kill(self) -> None:
+        """Функция для выхода из игры в целом
+        Останавливает все циклы и выходит из pygame"""
         self.playing = False
         self.running = False
         pygame.quit()

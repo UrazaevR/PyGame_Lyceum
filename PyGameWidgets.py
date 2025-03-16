@@ -23,10 +23,12 @@ class GameButton:
         self.update()
 
     def set_text(self, text: str) -> None:
+        """Функция для изменения текста виджета"""
         self.text = text
         self.font_set()
 
     def font_set(self) -> None:
+        """Функция делает перерасчет размера шрифта так, чтобы тест полностью влез в виджет"""
         letter = pygame.font.SysFont(self.font, self.font_size).render(self.text,
                                                                        True, self.text_color, self.backgroundcolor)
         rect = letter.get_rect()
@@ -46,6 +48,7 @@ class GameButton:
             self.screen.blit(letter, (t_x, t_y))
 
     def get_events(self, events: list[pygame.event.Event]) -> None:
+        """Функция получает на вход список виджетов и проверяет не нажал ли пользователь на кнопку"""
         if self.is_visible:
             for event in events:
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -56,6 +59,7 @@ class GameButton:
                                 self.function()
 
     def connect(self, function: callable) -> None:
+        """Функция "подключает" функцию к кнопке (аналогично Button.clicked.connect в PyQt)"""
         if callable(function):
             self.function = function
         else:
@@ -66,11 +70,12 @@ class GameButton:
         self.update()
 
     def set_visible(self, flag: bool=True) -> None:
+        """Функция меняет флаг отвечающий отрисовку на значение аргумента (по-умолчанию True)"""
         self.is_visible = flag
 
 
 class GameSlider:
-    '''Виджет слайдера, написанный для PyGame'''
+    """Виджет слайдера, написанный для PyGame"""
     def __init__(self, screen: pygame.Surface, x: int=0, y: int=0, width: int=100, height: int=4,
                  value: int=0, max_value: int=100, min_value: int=0,
                  cickle_color='blue', color='white', bar_color='white'):
@@ -101,6 +106,7 @@ class GameSlider:
                                 self.y + (self.height // 2)), self.height + 4)
 
     def set_value(self, value: int) -> None:
+        """Устанавливает слайдер в положение соответствующее переменной value"""
         if self.min_value <= self.value <= self.max_value:
             self.value = value
             if self.function is not None:
@@ -108,6 +114,7 @@ class GameSlider:
             self.update()
 
     def get_events(self, events: list[pygame.event.Event]) -> None:
+        """Функция получает на вход список виджетов и проверяет не двигает ли пользователь слайдер"""
         if self.is_visible:
             center = self.x + (self.value - self.min_value) * self.len_del, self.y + (self.height // 2)
             for event in events:
@@ -129,11 +136,16 @@ class GameSlider:
                 if event.type == pygame.MOUSEBUTTONUP:
                     self.drag = False
 
-    def set_visible(self, flag: bool=True):
+    def set_visible(self, flag: bool=True) -> None:
+        """Функция меняет флаг отвечающий отрисовку на значение аргумента (по-умолчанию True)"""
         self.is_visible = flag
 
     def connect(self, function: callable):
+        """Функция "подключает" функцию к кнопке (аналогично Button.clicked.connect в PyQt)"""
         if callable(function):
             self.function = function
         else:
             raise TypeError
+
+
+help(GameSlider)
